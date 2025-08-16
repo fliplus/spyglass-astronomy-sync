@@ -3,13 +3,12 @@
 	"id": "spyglass-astronomy-sync",
 	"version": "${version}",
 	"name": "Spyglass Astronomy Sync",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "Server-client sync for Spyglass Astronomy",
 	"authors": [
-		"Me!"
+		"fliplus"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://github.com/fliplus/spyglass-astronomy-sync"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/spyglass-astronomy-sync/icon.png",
@@ -26,7 +25,8 @@
 		"fabricloader": ">=0.17.2",
 		"minecraft": "~1.21.8",
 		"java": ">=21",
-		"fabric-api": "*"
+		"fabric-api": "*",
+		"spyglass_astronomy": "*"
 	},
 	"suggests": {
 		"another-mod": "*"

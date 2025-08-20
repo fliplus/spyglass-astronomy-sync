@@ -12,7 +12,7 @@ public class SpyglassAstronomyClientMixin {
 
     @Inject(method = "saveSpace", at = @At("HEAD"), cancellable = true, remap = false)
     private static void saveSpace(CallbackInfo ci) {
-        if (SpyglassAstronomySyncClient.shouldSync != false) {
+        if (SpyglassAstronomySyncClient.shouldSync == null || SpyglassAstronomySyncClient.shouldSync) {
             ci.cancel();
         }
     }

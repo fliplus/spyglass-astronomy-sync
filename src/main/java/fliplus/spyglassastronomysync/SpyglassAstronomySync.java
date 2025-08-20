@@ -1,10 +1,7 @@
 package fliplus.spyglassastronomysync;
 
-import fliplus.spyglassastronomysync.network.HandShakePacket;
 import net.fabricmc.api.ModInitializer;
 
-import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,11 +11,6 @@ public class SpyglassAstronomySync implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-        PayloadTypeRegistry.playC2S().register(HandShakePacket.TYPE, HandShakePacket.STREAM_CODEC);
-        PayloadTypeRegistry.playS2C().register(HandShakePacket.TYPE, HandShakePacket.STREAM_CODEC);
 
-        ServerPlayNetworking.registerGlobalReceiver(HandShakePacket.TYPE, (packet, context) -> {
-            ServerPlayNetworking.send(context.player(), new HandShakePacket());
-        });
     }
 }

@@ -1,10 +1,9 @@
 package fliplus.spyglassastronomysync;
 
 import com.nettakrim.spyglass_astronomy.SpyglassAstronomyClient;
-import fliplus.spyglassastronomysync.network.HandShakePacket;
+import fliplus.spyglassastronomysync.client.network.ClientNetworking;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.util.tinyfd.TinyFileDialogs;
@@ -18,16 +17,10 @@ public class SpyglassAstronomySyncClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        if (!FabricLoader.getInstance().isModLoaded("spyglass_astronomy")) {
-            TinyFileDialogs.tinyfd_messageBox(
-                "Minecraft Error - Missing Dependency",
-                "Spyglass Astronomy is not installed!\nSpyglass Astronomy Sync will not work without it.\nPlease install Spyglass Astronomy to use this mod.",
-                "ok",
-                "error",
-                false
-            );
-            throw new IllegalStateException("Spyglass Astronomy is not present");
-        }
+        verifyDependency();
+
+        ClientNetworking.registerPayloads();
+        ClientNetworking.registerReceivers();
 
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
             if (Minecraft.getInstance().getSingleplayerServer() != null) {
@@ -35,7 +28,7 @@ public class SpyglassAstronomySyncClient implements ClientModInitializer {
                 return;
             }
 
-            ClientPlayNetworking.send(new HandShakePacket());
+            ClientNetworking.sendHandshake();
 
             ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
             executor.schedule(() -> {
@@ -46,9 +39,18 @@ public class SpyglassAstronomySyncClient implements ClientModInitializer {
                 executor.shutdown();
             }, 2500, TimeUnit.MILLISECONDS);
         });
+    }
 
-        ClientPlayNetworking.registerGlobalReceiver(HandShakePacket.TYPE, (packet, context) -> {
-            shouldSync = true;
-        });
+    private static void verifyDependency() {
+        if (!FabricLoader.getInstance().isModLoaded("spyglass_astronomy")) {
+            TinyFileDialogs.tinyfd_messageBox(
+                "Minecraft Error - Missing Dependency",
+                "Spyglass Astronomy is not installed!\nSpyglass Astronomy Sync will not work without it.\nPlease install Spyglass Astronomy to use this mod.",
+                "ok",
+                "error",
+                false
+            );
+            throw new IllegalStateException("Spyglass Astronomy is not present");
+        }
     }
 }

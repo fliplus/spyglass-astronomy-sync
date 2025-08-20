@@ -5,7 +5,9 @@ import fliplus.spyglassastronomysync.network.HandShakePacket;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
+import org.lwjgl.util.tinyfd.TinyFileDialogs;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -16,6 +18,17 @@ public class SpyglassAstronomySyncClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        if (!FabricLoader.getInstance().isModLoaded("spyglass_astronomy")) {
+            TinyFileDialogs.tinyfd_messageBox(
+                "Minecraft Error - Missing Dependency",
+                "Spyglass Astronomy is not installed!\nSpyglass Astronomy Sync will not work without it.\nPlease install Spyglass Astronomy to use this mod.",
+                "ok",
+                "error",
+                false
+            );
+            throw new IllegalStateException("Spyglass Astronomy is not present");
+        }
+
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
             if (Minecraft.getInstance().getSingleplayerServer() != null) {
                 shouldSync = false;

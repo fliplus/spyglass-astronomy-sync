@@ -1,34 +1,37 @@
 {
-	"schemaVersion": 1,
-	"id": "spyglass-astronomy-sync",
-	"version": "${version}",
-	"name": "Spyglass Astronomy Sync",
-	"description": "Server-client sync for Spyglass Astronomy",
-	"authors": [
-		"fliplus"
-	],
-	"contact": {
-		"homepage": "https://github.com/fliplus/spyglass-astronomy-sync"
-	},
-	"license": "CC0-1.0",
-	"icon": "assets/spyglass-astronomy-sync/icon.png",
-	"environment": "*",
-	"entrypoints": {
-		"main": [
-			"fliplus.spyglassastronomysync.SpyglassAstronomySync"
-		]
-	},
-	"mixins": [
-		"spyglass-astronomy-sync.mixins.json"
-	],
-	"depends": {
-		"fabricloader": ">=0.17.2",
-		"minecraft": "~1.21.8",
-		"java": ">=21",
-		"fabric-api": "*",
-		"spyglass_astronomy": "*"
-	},
-	"suggests": {
-		"another-mod": "*"
-	}
+    "schemaVersion": 1,
+    "id": "spyglass-astronomy-sync",
+    "version": "${version}",
+    "name": "Spyglass Astronomy Sync",
+    "description": "Server-client sync for Spyglass Astronomy",
+    "authors": [
+        "fliplus"
+    ],
+    "contact": {
+        "homepage": "https://github.com/fliplus/spyglass-astronomy-sync"
+    },
+    "license": "CC0-1.0",
+    "icon": "assets/spyglass-astronomy-sync/icon.png",
+    "environment": "*",
+    "entrypoints": {
+        "main": [
+            "fliplus.spyglassastronomysync.SpyglassAstronomySync"
+        ],
+        "client": [
+            "fliplus.spyglassastronomysync.SpyglassAstronomySyncClient"
+        ]
+    },
+    "mixins": [
+        "spyglass-astronomy-sync.mixins.json"
+    ],
+    "depends": {
+        "fabricloader": ">=0.17.2",
+        "minecraft": "~1.21.8",
+        "java": ">=21",
+        "fabric-api": "*",
+        "spyglass_astronomy": "*"
+    },
+    "suggests": {
+        "another-mod": "*"
+    }
 }

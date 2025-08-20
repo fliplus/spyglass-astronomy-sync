@@ -1,14 +1,15 @@
 {
-	"required": true,
-	"package": "fliplus.spyglassastronomysync.mixin",
-	"compatibilityLevel": "JAVA_21",
-	"mixins": [
-		"ExampleMixin"
-	],
-	"injectors": {
-		"defaultRequire": 1
-	},
-	"overwrites": {
-		"requireAnnotations": true
-	}
+    "required": true,
+    "package": "fliplus.spyglassastronomysync.mixin",
+    "compatibilityLevel": "JAVA_21",
+    "client": [
+        "MinecraftMixin",
+        "SpyglassAstronomyClientMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    },
+    "overwrites": {
+        "requireAnnotations": true
+    }
 }

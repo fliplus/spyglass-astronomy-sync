@@ -5,7 +5,7 @@
     "plugin": "fliplus.spyglassastronomysync.mixin.SpyglassAstronomySyncMixinPlugin",
     "client": [
         "MinecraftMixin",
-        "SpyglassAstronomyClientMixin"
+        "SpaceDataManagerMixin"
     ],
     "injectors": {
         "defaultRequire": 1

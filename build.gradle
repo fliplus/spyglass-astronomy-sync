@@ -35,6 +35,10 @@ repositories {
 	}
 
     maven { url = "https://maven.bawnorton.com/releases" }
+
+    maven {
+        url = "https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1"
+    }
 }
 
 dependencies {
@@ -52,6 +56,8 @@ dependencies {
 	modImplementation "maven.modrinth:spyglass-astronomy:${project.spyglass_astronomy_version}"
 
     include(implementation(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-fabric:${project.mixinsquared_version}")))
+
+    runtimeOnly "me.djtheredstoner:DevAuth-fabric:${project.devauth_version}"
 }
 
 processResources {

@@ -13,15 +13,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class SpaceDataManagerMixin {
     @Inject(method = "saveData", at = @At("HEAD"), cancellable = true, remap = false)
     private static void saveData(CallbackInfo ci) {
-        if (SpyglassAstronomySyncClient.shouldSync != null) {
+        if (SpyglassAstronomySyncClient.shouldSync == null || SpyglassAstronomySyncClient.shouldSync) {
             ci.cancel();
         }
     }
 
     @Inject(method = "makeChange", at = @At("HEAD"), remap = false)
     private static void makeChange(CallbackInfo ci) {
-        String data = ClientSpaceDataManager.dataToString();
-        ClientSpaceDataManager.revision++;
-        ClientNetworking.sendData(data, ClientSpaceDataManager.revision);
+        if (Boolean.TRUE.equals(SpyglassAstronomySyncClient.shouldSync)) {
+            String data = ClientSpaceDataManager.dataToString();
+            ClientSpaceDataManager.revision++;
+            ClientNetworking.sendData(data, ClientSpaceDataManager.revision);
+        }
     }
 }

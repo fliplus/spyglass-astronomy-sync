@@ -9,11 +9,19 @@ import java.util.List;
 import java.util.Set;
 
 public class SpyglassAstronomySyncMixinPlugin implements IMixinConfigPlugin {
+    private static final String[] CLASSES = {
+        "MinecraftMixin",
+        "SpaceDataManagerMixin"
+    };
     private static final boolean IS_SPYGLASS_ASTRONOMY_LOADED = FabricLoader.getInstance().isModLoaded("spyglass_astronomy");
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        return IS_SPYGLASS_ASTRONOMY_LOADED;
+        for (String className : CLASSES) {
+            if (mixinClassName.equals("fliplus.spyglassastronomysync.mixin." + className)) return IS_SPYGLASS_ASTRONOMY_LOADED;
+        }
+
+        return true;
     }
 
     // Unused

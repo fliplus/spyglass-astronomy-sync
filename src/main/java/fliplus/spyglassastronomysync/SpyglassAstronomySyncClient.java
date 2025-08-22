@@ -37,7 +37,7 @@ public class SpyglassAstronomySyncClient implements ClientModInitializer {
                     SpyglassAstronomyClient.loadSpace(client.level, true);
                 }
                 executor.shutdown();
-            }, 2500, TimeUnit.MILLISECONDS);
+            }, 2, TimeUnit.SECONDS);
         });
     }
 

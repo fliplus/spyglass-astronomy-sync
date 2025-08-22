@@ -1,7 +1,6 @@
 package fliplus.spyglassastronomysync.client.network;
 
 import com.nettakrim.spyglass_astronomy.Knowledge;
-import com.nettakrim.spyglass_astronomy.SpaceRenderingManager;
 import com.nettakrim.spyglass_astronomy.SpyglassAstronomyClient;
 import com.nettakrim.spyglass_astronomy.commands.admin_subcommands.StarCountCommand;
 import fliplus.spyglassastronomysync.SpyglassAstronomySync;

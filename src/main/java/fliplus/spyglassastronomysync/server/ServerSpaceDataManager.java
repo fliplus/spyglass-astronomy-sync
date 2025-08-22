@@ -1,6 +1,8 @@
 package fliplus.spyglassastronomysync.server;
 
+import fliplus.spyglassastronomysync.mixin.BiomeManagerAccessor;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.storage.LevelResource;
 
@@ -11,8 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ServerSpaceDataManager {
-    public static final int SAVE_FORMAT = 1;
-
     public static int revision = 0;
 
     public static List<ServerPlayer> players = new ArrayList<>();
@@ -37,8 +37,23 @@ public class ServerSpaceDataManager {
         }
 
         try {
-            String content = "Spyglass Astronomy - Format: " + SAVE_FORMAT + "\n---\n";
-            Files.writeString(dataPath, content);
+            int SAVE_FORMAT = 1;
+            long seedHash = ((BiomeManagerAccessor) server.overworld().getBiomeManager()).getBiomeZoomSeed();
+            int starCount = 1024;
+            float yearLength = 8.0f;
+
+            Files.writeString(dataPath, new StringBuilder()
+                .append("Spyglass Astronomy - Format: ").append(SAVE_FORMAT)
+                .append("\n---\n")
+                .append(seedHash)
+                .append("\n---")
+                .append("\n---")
+                .append("\n---")
+                .append("\n---\n")
+                .append(starCount).append(" ").append(yearLength)
+                .append("\n---")
+                .toString()
+            );
         } catch (IOException e) {
             throw new IllegalStateException("Failed to create data file", e);
         }

@@ -7,6 +7,9 @@
         "MinecraftMixin",
         "SpaceDataManagerMixin"
     ],
+    "server": [
+        "BiomeManagerAccessor"
+    ],
     "injectors": {
         "defaultRequire": 1
     },

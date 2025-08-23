@@ -4,7 +4,9 @@
     "compatibilityLevel": "JAVA_21",
     "plugin": "fliplus.spyglassastronomysync.mixin.SpyglassAstronomySyncMixinPlugin",
     "client": [
+        "ChangesCommandMixin",
         "MinecraftMixin",
+        "ShareCommandMixin",
         "SpaceDataManagerMixin"
     ],
     "server": [

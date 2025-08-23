@@ -1,12 +1,16 @@
 package fliplus.spyglassastronomysync;
 
+import com.mojang.brigadier.context.CommandContext;
 import com.nettakrim.spyglass_astronomy.SpyglassAstronomyClient;
 import fliplus.spyglassastronomysync.client.network.ClientNetworking;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import org.lwjgl.util.tinyfd.TinyFileDialogs;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -51,6 +55,13 @@ public class SpyglassAstronomySyncClient implements ClientModInitializer {
                 false
             );
             throw new IllegalStateException("Spyglass Astronomy is not present");
+        }
+    }
+
+    public static void validateCommand(CommandContext<FabricClientCommandSource> context, CallbackInfoReturnable<Integer> cir) {
+        if (SpyglassAstronomySyncClient.shouldSync) {
+            context.getSource().sendError(Component.literal("You cannot execute this command while sync is enabled."));
+            cir.setReturnValue(0);
         }
     }
 }

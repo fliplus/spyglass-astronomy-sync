@@ -1,33 +1,23 @@
 package fliplus.spyglassastronomysync.mixin;
 
-import com.bawnorton.mixinsquared.TargetHandler;
 import fliplus.spyglassastronomysync.SpyglassAstronomySyncClient;
+import fliplus.spyglassastronomysync.client.network.ClientNetworking;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.ReceivingLevelScreen;
+import net.minecraft.client.multiplayer.ClientLevel;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(value = Minecraft.class, priority = 1500)
+@Mixin(value = Minecraft.class)
 public class MinecraftMixin {
-    @TargetHandler(
-        mixin = "com.nettakrim.spyglass_astronomy.mixin.MinecraftClientMixin",
-        name = "loadSpace"
-    )
-    @ModifyArg(
-        method = "@MixinSquared:Handler",
-        at = @At(
-            value = "INVOKE",
-            target = "Lcom/nettakrim/spyglass_astronomy/SpyglassAstronomyClient;loadSpace(Lnet/minecraft/client/multiplayer/ClientLevel;Z)V"
-        ),
-        index = 1
-    )
-    private boolean allowSpace(boolean original) {
-        return false;
+    @Inject(method = "setLevel", at = @At("RETURN"), order = 1500)
+    private void setLevel(ClientLevel level, ReceivingLevelScreen.Reason reason, CallbackInfo ci) {
+        if (Boolean.TRUE.equals(SpyglassAstronomySyncClient.shouldSync)) ClientNetworking.requestData();
     }
 
-    @Inject(method = "disconnect", at = @At("RETURN"))
+    @Inject(method = "disconnect", at = @At("RETURN"), order = 500)
     private void disconnect(CallbackInfo ci) {
         SpyglassAstronomySyncClient.shouldSync = null;
     }

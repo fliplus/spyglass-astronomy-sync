@@ -1,6 +1,7 @@
 package fliplus.spyglassastronomysync.mixin;
 
 import com.nettakrim.spyglass_astronomy.SpaceDataManager;
+import com.nettakrim.spyglass_astronomy.SpyglassAstronomyClient;
 import fliplus.spyglassastronomysync.SpyglassAstronomySyncClient;
 import fliplus.spyglassastronomysync.client.ClientSpaceDataManager;
 import fliplus.spyglassastronomysync.client.network.ClientNetworking;
@@ -13,14 +14,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class SpaceDataManagerMixin {
     @Inject(method = "saveData", at = @At("HEAD"), cancellable = true, remap = false)
     private static void saveData(CallbackInfo ci) {
-        if (SpyglassAstronomySyncClient.shouldSync == null || SpyglassAstronomySyncClient.shouldSync) {
+        if (Boolean.TRUE.equals(SpyglassAstronomySyncClient.shouldSync)) {
             ci.cancel();
         }
     }
 
-    @Inject(method = "makeChange", at = @At("HEAD"), remap = false)
+    @Inject(method = "makeChange", at = @At("TAIL"), remap = false)
     private static void makeChange(CallbackInfo ci) {
         if (Boolean.TRUE.equals(SpyglassAstronomySyncClient.shouldSync)) {
+            ((SpaceDataManagerAccessor) SpyglassAstronomyClient.spaceDataManager).setChangesMade(0);
+
             String data = ClientSpaceDataManager.dataToString();
             ClientSpaceDataManager.revision++;
             ClientNetworking.sendData(data, ClientSpaceDataManager.revision);

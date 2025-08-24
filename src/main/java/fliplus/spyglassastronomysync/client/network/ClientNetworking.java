@@ -8,6 +8,7 @@ import fliplus.spyglassastronomysync.SpyglassAstronomySyncClient;
 import fliplus.spyglassastronomysync.client.ClientSpaceDataManager;
 import fliplus.spyglassastronomysync.network.DataPacket;
 import fliplus.spyglassastronomysync.network.HandShakePacket;
+import fliplus.spyglassastronomysync.network.RequestDataPacket;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 
@@ -19,6 +20,7 @@ public class ClientNetworking {
         PayloadTypeRegistry.playC2S().register(HandShakePacket.TYPE, HandShakePacket.STREAM_CODEC);
         PayloadTypeRegistry.playS2C().register(DataPacket.TYPE, DataPacket.STREAM_CODEC);
         PayloadTypeRegistry.playC2S().register(DataPacket.TYPE, DataPacket.STREAM_CODEC);
+        PayloadTypeRegistry.playC2S().register(RequestDataPacket.TYPE, RequestDataPacket.STREAM_CODEC);
     }
 
     public static void sendHandshake() {
@@ -27,6 +29,10 @@ public class ClientNetworking {
 
     public static void sendData(String data, int revision) {
         ClientPlayNetworking.send(new DataPacket(data, revision));
+    }
+
+    public static void requestData() {
+        ClientPlayNetworking.send(new RequestDataPacket());
     }
 
     public static void registerReceivers() {

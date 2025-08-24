@@ -1,7 +1,6 @@
 package fliplus.spyglassastronomysync;
 
 import com.mojang.brigadier.context.CommandContext;
-import com.nettakrim.spyglass_astronomy.SpyglassAstronomyClient;
 import fliplus.spyglassastronomysync.client.network.ClientNetworking;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
@@ -27,6 +26,8 @@ public class SpyglassAstronomySyncClient implements ClientModInitializer {
         ClientNetworking.registerReceivers();
 
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
+            shouldSync = null;
+
             if (Minecraft.getInstance().getSingleplayerServer() != null) {
                 shouldSync = false;
                 return;
@@ -38,7 +39,6 @@ public class SpyglassAstronomySyncClient implements ClientModInitializer {
             executor.schedule(() -> {
                 if (shouldSync == null && client.level != null) {
                     shouldSync = false;
-                    SpyglassAstronomyClient.loadSpace(client.level, true);
                 }
                 executor.shutdown();
             }, 2, TimeUnit.SECONDS);
@@ -59,7 +59,7 @@ public class SpyglassAstronomySyncClient implements ClientModInitializer {
     }
 
     public static void validateCommand(CommandContext<FabricClientCommandSource> context, CallbackInfoReturnable<Integer> cir) {
-        if (SpyglassAstronomySyncClient.shouldSync) {
+        if (Boolean.TRUE.equals(SpyglassAstronomySyncClient.shouldSync)) {
             context.getSource().sendError(Component.literal("You cannot execute this command while sync is enabled."));
             cir.setReturnValue(0);
         }

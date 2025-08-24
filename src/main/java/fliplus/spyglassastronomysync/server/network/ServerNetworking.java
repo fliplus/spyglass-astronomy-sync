@@ -1,8 +1,8 @@
 package fliplus.spyglassastronomysync.server.network;
 
-import fliplus.spyglassastronomysync.SpyglassAstronomySync;
 import fliplus.spyglassastronomysync.network.HandShakePacket;
 import fliplus.spyglassastronomysync.network.DataPacket;
+import fliplus.spyglassastronomysync.network.RequestDataPacket;
 import fliplus.spyglassastronomysync.server.ServerSpaceDataManager;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -16,6 +16,7 @@ public class ServerNetworking {
         PayloadTypeRegistry.playC2S().register(HandShakePacket.TYPE, HandShakePacket.STREAM_CODEC);
         PayloadTypeRegistry.playS2C().register(DataPacket.TYPE, DataPacket.STREAM_CODEC);
         PayloadTypeRegistry.playC2S().register(DataPacket.TYPE, DataPacket.STREAM_CODEC);
+        PayloadTypeRegistry.playC2S().register(RequestDataPacket.TYPE, RequestDataPacket.STREAM_CODEC);
     }
 
     public static void sendHandshake(ServerPlayer player) {
@@ -29,6 +30,7 @@ public class ServerNetworking {
     public static void registerReceivers() {
         ServerPlayNetworking.registerGlobalReceiver(HandShakePacket.TYPE, ServerNetworking::handleHandshake);
         ServerPlayNetworking.registerGlobalReceiver(DataPacket.TYPE, ServerNetworking::handleData);
+        ServerPlayNetworking.registerGlobalReceiver(RequestDataPacket.TYPE, ServerNetworking::handleDataRequest);
     }
 
     private static void handleHandshake(HandShakePacket packet, ServerPlayNetworking.Context context) {
@@ -59,5 +61,10 @@ public class ServerNetworking {
                 sendData(player, data, revision);
             }
         }
+    }
+
+    private static void handleDataRequest(RequestDataPacket packet, ServerPlayNetworking.Context context) {
+        String storedData = ServerSpaceDataManager.getData(context.server());
+        sendData(context.player(), storedData, ServerSpaceDataManager.revision);
     }
 }

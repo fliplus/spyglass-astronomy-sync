@@ -13,6 +13,7 @@ public class SpyglassAstronomySyncMixinPlugin implements IMixinConfigPlugin {
         "ChangesCommandMixin",
         "MinecraftMixin",
         "ShareCommandMixin",
+        "SpaceDataManagerAccessor",
         "SpaceDataManagerMixin"
     };
     private static final boolean IS_SPYGLASS_ASTRONOMY_LOADED = FabricLoader.getInstance().isModLoaded("spyglass_astronomy");

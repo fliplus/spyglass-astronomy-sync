@@ -11,13 +11,9 @@ import net.minecraft.network.chat.Component;
 import org.lwjgl.util.tinyfd.TinyFileDialogs;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
 public class SpyglassAstronomySyncClient implements ClientModInitializer {
-    public static Boolean shouldSync;
-    public static Boolean adminPrivileges;
+    public static boolean shouldSync;
+    public static boolean adminPrivileges;
 
     @Override
     public void onInitializeClient() {
@@ -27,23 +23,14 @@ public class SpyglassAstronomySyncClient implements ClientModInitializer {
         ClientNetworking.registerReceivers();
 
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
-            shouldSync = null;
+            shouldSync = false;
             adminPrivileges = false;
 
             if (Minecraft.getInstance().getSingleplayerServer() != null) {
-                shouldSync = false;
                 return;
             }
 
             ClientNetworking.sendHandshake();
-
-            ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-            executor.schedule(() -> {
-                if (shouldSync == null && client.level != null) {
-                    shouldSync = false;
-                }
-                executor.shutdown();
-            }, 2, TimeUnit.SECONDS);
         });
     }
 
@@ -61,7 +48,7 @@ public class SpyglassAstronomySyncClient implements ClientModInitializer {
     }
 
     public static void validateCommand(CommandContext<FabricClientCommandSource> context, CallbackInfoReturnable<Integer> cir, boolean isAdminCommand) {
-        if (Boolean.TRUE.equals(SpyglassAstronomySyncClient.shouldSync)) {
+        if (SpyglassAstronomySyncClient.shouldSync) {
             if (isAdminCommand) {
                 if (context.getSource().getPlayer().getPermissionLevel() < 2 && !adminPrivileges) {
                     context.getSource().sendError(Component.literal("You do not have permission to execute this command"));

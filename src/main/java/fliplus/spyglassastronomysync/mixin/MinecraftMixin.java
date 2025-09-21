@@ -14,11 +14,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MinecraftMixin {
     @Inject(method = "setLevel", at = @At("RETURN"), order = 1500)
     private void setLevel(ClientLevel level, ReceivingLevelScreen.Reason reason, CallbackInfo ci) {
-        if (Boolean.TRUE.equals(SpyglassAstronomySyncClient.shouldSync)) ClientNetworking.requestData();
-    }
-
-    @Inject(method = "disconnect", at = @At("RETURN"), order = 500)
-    private void disconnect(CallbackInfo ci) {
-        SpyglassAstronomySyncClient.shouldSync = null;
+        if (SpyglassAstronomySyncClient.shouldSync && Minecraft.getInstance().player != null) ClientNetworking.requestData();
     }
 }

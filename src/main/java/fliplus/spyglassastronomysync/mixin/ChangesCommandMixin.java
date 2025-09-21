@@ -13,16 +13,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class ChangesCommandMixin {
     @Inject(method = "saveChanges", at = @At("HEAD"), cancellable = true, remap = false)
     private static void saveChanges(CommandContext<FabricClientCommandSource> context, CallbackInfoReturnable<Integer> cir) {
-        SpyglassAstronomySyncClient.validateCommand(context, cir);
+        SpyglassAstronomySyncClient.validateCommand(context, cir, false);
     }
 
     @Inject(method = "discardUnsavedChanges", at = @At("HEAD"), cancellable = true, remap = false)
     private static void discardUnsavedChanges(CommandContext<FabricClientCommandSource> context, CallbackInfoReturnable<Integer> cir) {
-        SpyglassAstronomySyncClient.validateCommand(context, cir);
+        SpyglassAstronomySyncClient.validateCommand(context, cir, false);
     }
 
     @Inject(method = "queryChanges", at = @At("HEAD"), cancellable = true, remap = false)
     private static void queryChanges(CommandContext<FabricClientCommandSource> context, CallbackInfoReturnable<Integer> cir) {
-        SpyglassAstronomySyncClient.validateCommand(context, cir);
+        SpyglassAstronomySyncClient.validateCommand(context, cir, false);
     }
 }

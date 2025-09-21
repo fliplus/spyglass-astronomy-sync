@@ -17,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 public class SpyglassAstronomySyncClient implements ClientModInitializer {
     public static Boolean shouldSync;
+    public static Boolean adminPrivileges;
 
     @Override
     public void onInitializeClient() {
@@ -27,6 +28,7 @@ public class SpyglassAstronomySyncClient implements ClientModInitializer {
 
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
             shouldSync = null;
+            adminPrivileges = false;
 
             if (Minecraft.getInstance().getSingleplayerServer() != null) {
                 shouldSync = false;
@@ -58,10 +60,17 @@ public class SpyglassAstronomySyncClient implements ClientModInitializer {
         }
     }
 
-    public static void validateCommand(CommandContext<FabricClientCommandSource> context, CallbackInfoReturnable<Integer> cir) {
+    public static void validateCommand(CommandContext<FabricClientCommandSource> context, CallbackInfoReturnable<Integer> cir, boolean isAdminCommand) {
         if (Boolean.TRUE.equals(SpyglassAstronomySyncClient.shouldSync)) {
-            context.getSource().sendError(Component.literal("You cannot execute this command while sync is enabled."));
-            cir.setReturnValue(0);
+            if (isAdminCommand) {
+                if (context.getSource().getPlayer().getPermissionLevel() < 2 && !adminPrivileges) {
+                    context.getSource().sendError(Component.literal("You do not have permission to execute this command"));
+                    cir.setReturnValue(0);
+                }
+            } else {
+                context.getSource().sendError(Component.literal("You cannot execute this command while sync is enabled"));
+                cir.setReturnValue(0);
+            }
         }
     }
 }

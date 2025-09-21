@@ -6,6 +6,7 @@ import com.nettakrim.spyglass_astronomy.commands.admin_subcommands.StarCountComm
 import fliplus.spyglassastronomysync.SpyglassAstronomySync;
 import fliplus.spyglassastronomysync.SpyglassAstronomySyncClient;
 import fliplus.spyglassastronomysync.client.ClientSpaceDataManager;
+import fliplus.spyglassastronomysync.network.AdminPrivilegesPacket;
 import fliplus.spyglassastronomysync.network.DataPacket;
 import fliplus.spyglassastronomysync.network.HandShakePacket;
 import fliplus.spyglassastronomysync.network.RequestDataPacket;
@@ -21,6 +22,7 @@ public class ClientNetworking {
         PayloadTypeRegistry.playS2C().register(DataPacket.TYPE, DataPacket.STREAM_CODEC);
         PayloadTypeRegistry.playC2S().register(DataPacket.TYPE, DataPacket.STREAM_CODEC);
         PayloadTypeRegistry.playC2S().register(RequestDataPacket.TYPE, RequestDataPacket.STREAM_CODEC);
+        PayloadTypeRegistry.playS2C().register(AdminPrivilegesPacket.TYPE, AdminPrivilegesPacket.STREAM_CODEC);
     }
 
     public static void sendHandshake() {
@@ -38,6 +40,7 @@ public class ClientNetworking {
     public static void registerReceivers() {
         ClientPlayNetworking.registerGlobalReceiver(HandShakePacket.TYPE, ClientNetworking::handleHandshake);
         ClientPlayNetworking.registerGlobalReceiver(DataPacket.TYPE, ClientNetworking::handleData);
+        ClientPlayNetworking.registerGlobalReceiver(AdminPrivilegesPacket.TYPE, ClientNetworking::handleAdminPrivileges);
     }
 
     private static void handleHandshake(HandShakePacket packet, ClientPlayNetworking.Context context) {
@@ -59,5 +62,9 @@ public class ClientNetworking {
 
         SpyglassAstronomyClient.knowledge = new Knowledge();
         SpyglassAstronomyClient.updateKnowledge();
+    }
+
+    private static void handleAdminPrivileges(AdminPrivilegesPacket packet, ClientPlayNetworking.Context context) {
+        SpyglassAstronomySyncClient.adminPrivileges = packet.allowAdminPrivileges();
     }
 }

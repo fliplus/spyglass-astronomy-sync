@@ -1,5 +1,7 @@
 package fliplus.spyglassastronomysync.server.network;
 
+import fliplus.spyglassastronomysync.SpyglassAstronomySyncServer;
+import fliplus.spyglassastronomysync.network.AdminPrivilegesPacket;
 import fliplus.spyglassastronomysync.network.HandShakePacket;
 import fliplus.spyglassastronomysync.network.DataPacket;
 import fliplus.spyglassastronomysync.network.RequestDataPacket;
@@ -17,6 +19,7 @@ public class ServerNetworking {
         PayloadTypeRegistry.playS2C().register(DataPacket.TYPE, DataPacket.STREAM_CODEC);
         PayloadTypeRegistry.playC2S().register(DataPacket.TYPE, DataPacket.STREAM_CODEC);
         PayloadTypeRegistry.playC2S().register(RequestDataPacket.TYPE, RequestDataPacket.STREAM_CODEC);
+        PayloadTypeRegistry.playS2C().register(AdminPrivilegesPacket.TYPE, AdminPrivilegesPacket.STREAM_CODEC);
     }
 
     public static void sendHandshake(ServerPlayer player) {
@@ -27,6 +30,10 @@ public class ServerNetworking {
         ServerPlayNetworking.send(player, new DataPacket(data, revision));
     }
 
+    public static void sendAdminPrivileges(ServerPlayer player, boolean allowAdminPrivileges) {
+        ServerPlayNetworking.send(player, new AdminPrivilegesPacket(allowAdminPrivileges));
+    }
+
     public static void registerReceivers() {
         ServerPlayNetworking.registerGlobalReceiver(HandShakePacket.TYPE, ServerNetworking::handleHandshake);
         ServerPlayNetworking.registerGlobalReceiver(DataPacket.TYPE, ServerNetworking::handleData);
@@ -35,6 +42,7 @@ public class ServerNetworking {
 
     private static void handleHandshake(HandShakePacket packet, ServerPlayNetworking.Context context) {
         sendHandshake(context.player());
+        sendAdminPrivileges(context.player(), SpyglassAstronomySyncServer.getConfig().AllowAdminCommands);
         ServerSpaceDataManager.addPlayer(context.player());
     }
 

@@ -13,21 +13,21 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class ShareCommandMixin {
     @Inject(method = "run", at = @At("HEAD"), cancellable = true, remap = false)
     private void run(CommandContext<FabricClientCommandSource> context, CallbackInfoReturnable<Integer> cir) {
-        SpyglassAstronomySyncClient.validateCommand(context, cir);
+        SpyglassAstronomySyncClient.validateCommand(context, cir, false);
     }
 
     @Inject(method = "shareConstellation", at = @At("HEAD"), cancellable = true, remap = false)
     private static void shareConstellation(CommandContext<FabricClientCommandSource> context, CallbackInfoReturnable<Integer> cir) {
-        SpyglassAstronomySyncClient.validateCommand(context, cir);
+        SpyglassAstronomySyncClient.validateCommand(context, cir, false);
     }
 
     @Inject(method = "shareStar", at = @At("HEAD"), cancellable = true, remap = false)
     private static void shareStar(CommandContext<FabricClientCommandSource> context, CallbackInfoReturnable<Integer> cir) {
-        SpyglassAstronomySyncClient.validateCommand(context, cir);
+        SpyglassAstronomySyncClient.validateCommand(context, cir, false);
     }
 
     @Inject(method = "shareOrbitingBody", at = @At("HEAD"), cancellable = true, remap = false)
     private static void shareOrbitingBody(CommandContext<FabricClientCommandSource> context, CallbackInfoReturnable<Integer> cir) {
-        SpyglassAstronomySyncClient.validateCommand(context, cir);
+        SpyglassAstronomySyncClient.validateCommand(context, cir, false);
     }
 }

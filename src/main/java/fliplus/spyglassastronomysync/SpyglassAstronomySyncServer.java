@@ -23,10 +23,7 @@ public class SpyglassAstronomySyncServer implements DedicatedServerModInitialize
 
         ServerPlayConnectionEvents.JOIN.register((packet, sender, server) -> {
             ServerNetworking.sendData(packet.player, ServerSpaceDataManager.getData(server), ServerSpaceDataManager.revision);
-        });
-
-        ServerPlayConnectionEvents.DISCONNECT.register((packet, server) -> {
-            ServerSpaceDataManager.removePlayer(packet.player);
+            ServerNetworking.sendAdminPrivileges(packet.player, SpyglassAstronomySyncServer.getConfig().AllowAdminCommands);
         });
     }
 

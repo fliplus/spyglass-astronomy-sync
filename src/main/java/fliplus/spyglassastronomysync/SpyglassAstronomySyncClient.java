@@ -6,7 +6,6 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import org.lwjgl.util.tinyfd.TinyFileDialogs;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -25,12 +24,6 @@ public class SpyglassAstronomySyncClient implements ClientModInitializer {
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
             shouldSync = false;
             adminPrivileges = false;
-
-            if (Minecraft.getInstance().getSingleplayerServer() != null) {
-                return;
-            }
-
-            ClientNetworking.sendHandshake();
         });
     }
 
@@ -38,7 +31,7 @@ public class SpyglassAstronomySyncClient implements ClientModInitializer {
         if (!FabricLoader.getInstance().isModLoaded("spyglass_astronomy")) {
             TinyFileDialogs.tinyfd_messageBox(
                 "Minecraft Error - Missing Dependency",
-                "Spyglass Astronomy is not installed!\nSpyglass Astronomy Sync will not work without it.\nPlease install Spyglass Astronomy to use this mod.",
+                "Please install Spyglass Astronomy to use Spyglass Astronomy Sync",
                 "ok",
                 "error",
                 false

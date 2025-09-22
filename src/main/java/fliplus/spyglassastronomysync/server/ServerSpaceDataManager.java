@@ -2,28 +2,14 @@ package fliplus.spyglassastronomysync.server;
 
 import fliplus.spyglassastronomysync.mixin.BiomeManagerAccessor;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.storage.LevelResource;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ServerSpaceDataManager {
     public static int revision = 0;
-
-    public static List<ServerPlayer> players = new ArrayList<>();
-
-    public static void addPlayer(ServerPlayer player) {
-        players.add(player);
-    }
-
-    public static void removePlayer(ServerPlayer player) {
-        players.remove(player);
-    }
 
     public static void createDataFile(MinecraftServer server) {
         Path dataPath = getDataPath(server);
@@ -93,7 +79,6 @@ public class ServerSpaceDataManager {
     }
 
     public static boolean isDesynced(int revision) {
-        if (revision - 1 != ServerSpaceDataManager.revision) return true;
-        return false;
+        return revision - 1 != ServerSpaceDataManager.revision;
     }
 }

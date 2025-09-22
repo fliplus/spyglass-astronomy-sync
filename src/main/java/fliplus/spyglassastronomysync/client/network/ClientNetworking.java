@@ -8,25 +8,14 @@ import fliplus.spyglassastronomysync.SpyglassAstronomySyncClient;
 import fliplus.spyglassastronomysync.client.ClientSpaceDataManager;
 import fliplus.spyglassastronomysync.network.AdminPrivilegesPacket;
 import fliplus.spyglassastronomysync.network.DataPacket;
-import fliplus.spyglassastronomysync.network.HandShakePacket;
 import fliplus.spyglassastronomysync.network.RequestDataPacket;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 
 import java.util.ArrayList;
 
 public class ClientNetworking {
     public static void registerPayloads() {
-        PayloadTypeRegistry.playS2C().register(HandShakePacket.TYPE, HandShakePacket.STREAM_CODEC);
-        PayloadTypeRegistry.playC2S().register(HandShakePacket.TYPE, HandShakePacket.STREAM_CODEC);
-        PayloadTypeRegistry.playS2C().register(DataPacket.TYPE, DataPacket.STREAM_CODEC);
-        PayloadTypeRegistry.playC2S().register(DataPacket.TYPE, DataPacket.STREAM_CODEC);
-        PayloadTypeRegistry.playC2S().register(RequestDataPacket.TYPE, RequestDataPacket.STREAM_CODEC);
-        PayloadTypeRegistry.playS2C().register(AdminPrivilegesPacket.TYPE, AdminPrivilegesPacket.STREAM_CODEC);
-    }
-
-    public static void sendHandshake() {
-        ClientPlayNetworking.send(new HandShakePacket());
+        SpyglassAstronomySync.registerPayloads();
     }
 
     public static void sendData(String data, int revision) {
@@ -38,17 +27,16 @@ public class ClientNetworking {
     }
 
     public static void registerReceivers() {
-        ClientPlayNetworking.registerGlobalReceiver(HandShakePacket.TYPE, ClientNetworking::handleHandshake);
         ClientPlayNetworking.registerGlobalReceiver(DataPacket.TYPE, ClientNetworking::handleData);
         ClientPlayNetworking.registerGlobalReceiver(AdminPrivilegesPacket.TYPE, ClientNetworking::handleAdminPrivileges);
     }
 
-    private static void handleHandshake(HandShakePacket packet, ClientPlayNetworking.Context context) {
-        SpyglassAstronomySync.LOGGER.info("Spyglass Astronomy Sync detected on the server. Enabling sync.");
-        SpyglassAstronomySyncClient.shouldSync = true;
-    }
-
     private static void handleData(DataPacket packet, ClientPlayNetworking.Context context) {
+        if (!SpyglassAstronomySyncClient.shouldSync) {
+            SpyglassAstronomySync.LOGGER.info("Spyglass Astronomy Sync detected on the server. Enabling sync.");
+            SpyglassAstronomySyncClient.shouldSync = true;
+        }
+
         ClientSpaceDataManager.revision = packet.revision();
 
         SpyglassAstronomyClient.stars = new ArrayList<>();

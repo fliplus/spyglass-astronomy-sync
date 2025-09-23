@@ -1,6 +1,7 @@
 package fliplus.spyglassastronomysync.server.network;
 
 import fliplus.spyglassastronomysync.SpyglassAstronomySync;
+import fliplus.spyglassastronomysync.mixin.BiomeManagerAccessor;
 import fliplus.spyglassastronomysync.network.AdminPrivilegesPacket;
 import fliplus.spyglassastronomysync.network.DataPacket;
 import fliplus.spyglassastronomysync.network.RequestDataPacket;
@@ -32,9 +33,11 @@ public class ServerNetworking {
         String data = packet.data();
         int revision = packet.revision();
 
+        long seedHash = ((BiomeManagerAccessor) context.player().level().getBiomeManager()).getBiomeZoomSeed();
+
         boolean isDesynced = ServerSpaceDataManager.isDesynced(revision);
         if (isDesynced) {
-            String storedData = ServerSpaceDataManager.getData(context.server());
+            String storedData = ServerSpaceDataManager.getData(context.server(), seedHash);
 
             context.player().sendSystemMessage(Component
                 .literal("You were desynced from the server. Please make your change again")
@@ -44,7 +47,7 @@ public class ServerNetworking {
             return;
         }
 
-        ServerSpaceDataManager.saveData(data, context.server());
+        ServerSpaceDataManager.saveData(data, context.server(), seedHash);
 
         for (ServerPlayer player : context.server().getPlayerList().getPlayers()) {
             if (player == context.player()) continue;
@@ -53,7 +56,8 @@ public class ServerNetworking {
     }
 
     private static void handleDataRequest(RequestDataPacket packet, ServerPlayNetworking.Context context) {
-        String storedData = ServerSpaceDataManager.getData(context.server());
+        long seedHash = ((BiomeManagerAccessor) context.player().level().getBiomeManager()).getBiomeZoomSeed();
+        String storedData = ServerSpaceDataManager.getData(context.server(), seedHash);
         sendData(context.player(), storedData, ServerSpaceDataManager.revision);
     }
 }

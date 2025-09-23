@@ -22,6 +22,6 @@ public class YearLengthCommand {
 
     @Inject(method = "queryYearLength", at = @At("HEAD"), cancellable = true, remap = false)
     private static void queryYearLength(CommandContext<FabricClientCommandSource> context, CallbackInfoReturnable<Integer> cir) {
-        SpyglassAstronomySyncClient.validateCommand(context, cir, false);
+        SpyglassAstronomySyncClient.validateCommand(context, cir, true);
     }
 }

@@ -1,10 +1,10 @@
 package fliplus.spyglassastronomysync;
 
 import fliplus.spyglassastronomysync.client.config.SpyglassAstronomySyncConfig;
+import fliplus.spyglassastronomysync.mixin.BiomeManagerAccessor;
 import fliplus.spyglassastronomysync.server.ServerSpaceDataManager;
 import fliplus.spyglassastronomysync.server.network.ServerNetworking;
 import net.fabricmc.api.DedicatedServerModInitializer;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 
 public class SpyglassAstronomySyncServer implements DedicatedServerModInitializer {
@@ -17,12 +17,9 @@ public class SpyglassAstronomySyncServer implements DedicatedServerModInitialize
         ServerNetworking.registerPayloads();
         ServerNetworking.registerReceivers();
 
-        ServerWorldEvents.LOAD.register((server, level) -> {
-            ServerSpaceDataManager.createDataFile(server);
-        });
-
         ServerPlayConnectionEvents.JOIN.register((packet, sender, server) -> {
-            ServerNetworking.sendData(packet.player, ServerSpaceDataManager.getData(server), ServerSpaceDataManager.revision);
+            long seedHash = ((BiomeManagerAccessor) packet.player.level().getBiomeManager()).getBiomeZoomSeed();
+            ServerNetworking.sendData(packet.player, ServerSpaceDataManager.getData(server, seedHash), ServerSpaceDataManager.revision);
             ServerNetworking.sendAdminPrivileges(packet.player, SpyglassAstronomySyncServer.getConfig().AllowAdminCommands);
         });
     }

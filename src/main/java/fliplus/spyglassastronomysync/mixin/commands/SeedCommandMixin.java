@@ -23,7 +23,7 @@ public class SeedCommandMixin {
 
     @Inject(method = "queryStarSeed", at = @At("HEAD"), cancellable = true, remap = false)
     private static void queryStarSeed(CommandContext<FabricClientCommandSource> context, CallbackInfoReturnable<Integer> cir) {
-       SpyglassAstronomySyncClient.validateCommand(context, cir, false);
+       SpyglassAstronomySyncClient.validateCommand(context, cir, true);
     }
 
     @Inject(method = "setPlanetSeed(Lcom/mojang/brigadier/context/CommandContext;)I", at = @At("HEAD"), cancellable = true, remap = false)
@@ -38,6 +38,6 @@ public class SeedCommandMixin {
 
     @Inject(method = "queryPlanetSeed", at = @At("HEAD"), cancellable = true, remap = false)
     private static void queryPlanetSeed(CommandContext<FabricClientCommandSource> context, CallbackInfoReturnable<Integer> cir) {
-        SpyglassAstronomySyncClient.validateCommand(context, cir, false);
+        SpyglassAstronomySyncClient.validateCommand(context, cir, true);
     }
 }

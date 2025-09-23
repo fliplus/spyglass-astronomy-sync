@@ -1,4 +1,4 @@
-package fliplus.spyglassastronomysync.mixin;
+package fliplus.spyglassastronomysync.mixin.commands;
 
 import com.mojang.brigadier.context.CommandContext;
 import com.nettakrim.spyglass_astronomy.commands.ShareCommand;

@@ -1,4 +1,4 @@
-package fliplus.spyglassastronomysync.mixin;
+package fliplus.spyglassastronomysync.mixin.commands;
 
 import com.mojang.brigadier.context.CommandContext;
 import fliplus.spyglassastronomysync.SpyglassAstronomySyncClient;

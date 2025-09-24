@@ -3,7 +3,7 @@
   "id": "spyglass-astronomy-sync",
   "version": "${version}",
   "name": "Spyglass Astronomy Sync",
-  "description": "Synchronizes celestial data so all players see the same sky in Spyglass Astronomy",
+  "description": "Server support for Spyglass Astronomy",
   "authors": [
     "fliplus"
   ],
@@ -29,7 +29,7 @@
   ],
   "depends": {
     "fabricloader": ">=0.17.0",
-    "minecraft": "~1.21.6",
+    "minecraft": ">=1.21.6",
     "java": ">=21",
     "fabric-api": "*"
   }

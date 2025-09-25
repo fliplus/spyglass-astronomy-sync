@@ -3,7 +3,7 @@
   "id": "spyglass-astronomy-sync",
   "version": "${version}",
   "name": "Spyglass Astronomy Sync",
-  "description": "Server support for Spyglass Astronomy",
+  "description": "Multiplayer support for Spyglass Astronomy",
   "authors": [
     "fliplus"
   ],

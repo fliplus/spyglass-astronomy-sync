@@ -7,7 +7,7 @@ installed, all players will share the same sky automatically without needing to 
 - [CurseForge](https://www.curseforge.com/minecraft/mc-mods/spyglass-astronomy-sync)
 
 ## Demo
-![Demo](src/main/resources/assets/spyglass-astronomy-sync/demo.gif)
+![Demo](assets/demo.gif)
 
 ## Configuration
 By default, Spyglass Astronomy Sync disables most `/sga:admin` commands. This behavior can be changed in the

@@ -28,8 +28,8 @@
     "spyglass-astronomy-sync.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.17.0",
-    "minecraft": ">=1.21.6",
+    "fabricloader": ">=0.17",
+    "minecraft": "${minecraft}",
     "java": ">=21",
     "fabric-api": "*"
   }

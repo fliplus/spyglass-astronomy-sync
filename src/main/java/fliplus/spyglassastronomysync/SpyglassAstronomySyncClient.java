@@ -2,6 +2,7 @@ package fliplus.spyglassastronomysync;
 
 import com.mojang.brigadier.context.CommandContext;
 import fliplus.spyglassastronomysync.client.network.ClientNetworking;
+import fliplus.spyglassastronomysync.mixin.LocalPlayerAccessor;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
@@ -43,7 +44,8 @@ public class SpyglassAstronomySyncClient implements ClientModInitializer {
     public static void validateCommand(CommandContext<FabricClientCommandSource> context, CallbackInfoReturnable<Integer> cir, boolean isAdminCommand) {
         if (SpyglassAstronomySyncClient.shouldSync) {
             if (isAdminCommand) {
-                if (context.getSource().getPlayer().getPermissionLevel() < 2 && !adminPrivileges) {
+                int permissionLevel = ((LocalPlayerAccessor) context.getSource().getPlayer()).permissionLevel();
+                if (permissionLevel < 2 && !adminPrivileges) {
                     context.getSource().sendError(Component.literal("You do not have permission to execute this command"));
                     cir.setReturnValue(0);
                 }

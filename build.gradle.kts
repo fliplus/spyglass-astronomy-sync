@@ -1,5 +1,5 @@
 plugins {
-    id("fabric-loom") version "1.11-SNAPSHOT"
+    id("net.fabricmc.fabric-loom-remap") version "1.14-SNAPSHOT"
 }
 
 version = "${property("mod.version")}+${stonecutter.current.version}"

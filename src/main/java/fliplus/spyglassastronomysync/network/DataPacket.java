@@ -4,11 +4,19 @@ import fliplus.spyglassastronomysync.SpyglassAstronomySync;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+//? if >=1.21.11 {
+import net.minecraft.resources.Identifier;
+//? } else {
+/*import net.minecraft.resources.ResourceLocation;
+*///? }
 
 public record DataPacket(String data, int revision) implements CustomPacketPayload {
     public static final StreamCodec<FriendlyByteBuf, DataPacket> STREAM_CODEC = CustomPacketPayload.codec(DataPacket::write, DataPacket::new);
-    public static final ResourceLocation ADD_CONSTELLATION_PACKET = ResourceLocation.fromNamespaceAndPath(SpyglassAstronomySync.MOD_ID, "add_constellation_packet");
+    //? if >=1.21.11 {
+    public static final Identifier ADD_CONSTELLATION_PACKET = Identifier.fromNamespaceAndPath(SpyglassAstronomySync.MOD_ID, "add_constellation_packet");
+    //? } else {
+    /*public static final ResourceLocation ADD_CONSTELLATION_PACKET = ResourceLocation.fromNamespaceAndPath(SpyglassAstronomySync.MOD_ID, "add_constellation_packet");
+    *///? }
     public static final CustomPacketPayload.Type<DataPacket> TYPE = new CustomPacketPayload.Type<>(ADD_CONSTELLATION_PACKET);
 
     public DataPacket(FriendlyByteBuf buffer) {

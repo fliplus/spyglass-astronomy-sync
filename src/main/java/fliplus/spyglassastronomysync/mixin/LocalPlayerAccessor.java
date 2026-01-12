@@ -6,6 +6,8 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(LocalPlayer.class)
 public interface LocalPlayerAccessor {
-    @Accessor("permissionLevel")
+    //? if <=1.21.10 {
+    /*@Accessor("permissionLevel")
     int permissionLevel();
+    *///? }
 }

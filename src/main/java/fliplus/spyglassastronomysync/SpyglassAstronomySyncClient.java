@@ -8,8 +8,10 @@ import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.chat.Component;
-//? if >=1.21.11
-import net.minecraft.server.permissions.LevelBasedPermissionSet;
+//? if >=1.21.11 {
+import net.minecraft.server.permissions.Permission;
+import net.minecraft.server.permissions.PermissionLevel;
+//? }
 import org.lwjgl.util.tinyfd.TinyFileDialogs;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -47,8 +49,8 @@ public class SpyglassAstronomySyncClient implements ClientModInitializer {
         if (SpyglassAstronomySyncClient.shouldSync) {
             if (isAdminCommand) {
                 //? if >=1.21.11 {
-                boolean hasGamemasterPermissions = context.getSource().getPlayer().permissions().union(LevelBasedPermissionSet.GAMEMASTER) == LevelBasedPermissionSet.GAMEMASTER;
-                if (!hasGamemasterPermissions && !adminPrivileges) {
+                boolean hasPermission = context.getSource().getPlayer().permissions().hasPermission(new Permission.HasCommandLevel(PermissionLevel.GAMEMASTERS));
+                if (!hasPermission && !adminPrivileges) {
                 //? } else {
                 /*int permissionLevel = ((LocalPlayerAccessor) context.getSource().getPlayer()).permissionLevel();
                 if (permissionLevel < 2 && !adminPrivileges) {

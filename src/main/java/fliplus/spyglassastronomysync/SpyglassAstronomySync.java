@@ -17,9 +17,9 @@ public class SpyglassAstronomySync implements ModInitializer {
     public void onInitialize() {}
 
     public static void registerPayloads() {
-        PayloadTypeRegistry.playS2C().register(DataPacket.TYPE, DataPacket.STREAM_CODEC);
-        PayloadTypeRegistry.playC2S().register(DataPacket.TYPE, DataPacket.STREAM_CODEC);
-        PayloadTypeRegistry.playC2S().register(RequestDataPacket.TYPE, RequestDataPacket.STREAM_CODEC);
-        PayloadTypeRegistry.playS2C().register(AdminPrivilegesPacket.TYPE, AdminPrivilegesPacket.STREAM_CODEC);
+        PayloadTypeRegistry.clientboundPlay().register(DataPacket.TYPE, DataPacket.STREAM_CODEC);
+        PayloadTypeRegistry.serverboundPlay().register(DataPacket.TYPE, DataPacket.STREAM_CODEC);
+        PayloadTypeRegistry.serverboundPlay().register(RequestDataPacket.TYPE, RequestDataPacket.STREAM_CODEC);
+        PayloadTypeRegistry.clientboundPlay().register(AdminPrivilegesPacket.TYPE, AdminPrivilegesPacket.STREAM_CODEC);
     }
 }

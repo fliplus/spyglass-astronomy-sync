@@ -2,16 +2,13 @@ package fliplus.spyglassastronomysync;
 
 import com.mojang.brigadier.context.CommandContext;
 import fliplus.spyglassastronomysync.client.network.ClientNetworking;
-import fliplus.spyglassastronomysync.mixin.LocalPlayerAccessor;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.chat.Component;
-//? if >=1.21.11 {
 import net.minecraft.server.permissions.Permission;
 import net.minecraft.server.permissions.PermissionLevel;
-//? }
 import org.lwjgl.util.tinyfd.TinyFileDialogs;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -39,7 +36,7 @@ public class SpyglassAstronomySyncClient implements ClientModInitializer {
                 "Please install Spyglass Astronomy to use Spyglass Astronomy Sync",
                 "ok",
                 "error",
-                false
+                0
             );
             throw new IllegalStateException("Spyglass Astronomy is not present");
         }
@@ -48,13 +45,8 @@ public class SpyglassAstronomySyncClient implements ClientModInitializer {
     public static void validateCommand(CommandContext<FabricClientCommandSource> context, CallbackInfoReturnable<Integer> cir, boolean isAdminCommand) {
         if (SpyglassAstronomySyncClient.shouldSync) {
             if (isAdminCommand) {
-                //? if >=1.21.11 {
                 boolean hasPermission = context.getSource().getPlayer().permissions().hasPermission(new Permission.HasCommandLevel(PermissionLevel.GAMEMASTERS));
                 if (!hasPermission && !adminPrivileges) {
-                //? } else {
-                /*int permissionLevel = ((LocalPlayerAccessor) context.getSource().getPlayer()).permissionLevel();
-                if (permissionLevel < 2 && !adminPrivileges) {
-                *///? }
                     context.getSource().sendError(Component.literal("You do not have permission to execute this command"));
                     cir.setReturnValue(0);
                 }

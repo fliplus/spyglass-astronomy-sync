@@ -1,10 +1,9 @@
 {
   "required": true,
   "package": "fliplus.spyglassastronomysync.mixin",
-  "compatibilityLevel": "JAVA_21",
+  "compatibilityLevel": "JAVA_25",
   "plugin": "fliplus.spyglassastronomysync.mixin.SpyglassAstronomySyncMixinPlugin",
   "client": [
-    "LocalPlayerAccessor",
     "MinecraftMixin",
     "SpaceDataManagerAccessor",
     "SpaceDataManagerMixin",

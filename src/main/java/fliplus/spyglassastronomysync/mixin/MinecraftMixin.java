@@ -3,8 +3,6 @@ package fliplus.spyglassastronomysync.mixin;
 import fliplus.spyglassastronomysync.SpyglassAstronomySyncClient;
 import fliplus.spyglassastronomysync.client.network.ClientNetworking;
 import net.minecraft.client.Minecraft;
-//? if <= 1.21.8
-/*import net.minecraft.client.gui.screens.ReceivingLevelScreen;*/
 import net.minecraft.client.multiplayer.ClientLevel;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -20,7 +18,7 @@ public class MinecraftMixin {
     }
 
     @Inject(method = "setLevel", at = @At("TAIL"), order = 1500)
-    private void setLevel(ClientLevel level, /*? if <= 1.21.8 {*/ /*ReceivingLevelScreen.Reason reason, *//*?}*/ CallbackInfo ci) {
+    private void setLevel(ClientLevel level, CallbackInfo ci) {
         if (SpyglassAstronomySyncClient.shouldSync && Minecraft.getInstance().player != null) ClientNetworking.requestData();
     }
 }

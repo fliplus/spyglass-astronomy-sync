@@ -2,10 +2,6 @@
 Spyglass Astronomy Sync is an extension of [Spyglass Astronomy](https://modrinth.com/mod/spyglass-astronomy) that adds multiplayer support. With this mod
 installed, all players will share the same sky automatically without needing to manually sync via commands.
 
-## Download
-- [Modrinth](https://modrinth.com/mod/spyglass-astronomy-sync)
-- [CurseForge](https://www.curseforge.com/minecraft/mc-mods/spyglass-astronomy-sync)
-
 ## Demo
 ![Demo](assets/demo.gif)
 

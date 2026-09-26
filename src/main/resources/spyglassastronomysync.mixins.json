@@ -1,0 +1,26 @@
+{
+  "required": true,
+  "package": "dev.fliplus.spyglassastronomysync.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "client": [
+    "MinecraftMixin",
+    "SpaceDataManagerAccessor",
+    "SpaceDataManagerMixin",
+    "commands.BypassCommandMixin",
+    "commands.ChangesCommandMixin",
+    "commands.ConstellationsCommandMixin",
+    "commands.SeedCommandMixin",
+    "commands.ShareCommandMixin",
+    "commands.StarCountCommandMixin",
+    "commands.YearLengthCommandMixin"
+  ],
+  "server": [
+    "BiomeManagerAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}

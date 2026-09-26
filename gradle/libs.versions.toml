@@ -1,0 +1,10 @@
+[versions]
+loom = "1.18-SNAPSHOT"
+modstitch-manifests = "0.1.5"
+modstitch-modrepos = "0.1.2"
+
+[plugins]
+stonecutter = { id = "dev.kikugie.stonecutter" }
+loom = { id = "net.fabricmc.fabric-loom", version.ref = "loom" }
+modstitch-manifests = { id = "dev.isxander.mtk.manifests", version.ref = "modstitch-manifests" }
+modstitch-modrepos = { id = "dev.isxander.mtk.modrepos", version.ref = "modstitch-modrepos" }

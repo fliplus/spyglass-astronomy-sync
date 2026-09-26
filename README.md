@@ -11,7 +11,7 @@ installed, all players will share the same sky automatically without needing to 
 
 ## Configuration
 By default, Spyglass Astronomy Sync disables most `/sga:admin` commands. This behavior can be changed in the
-configuration file, located at `config/spyglass-astronomy-sync.json`.
+configuration file, located at `config/spyglassastronomysync.json`.
 
 Default configuration:
 ```json
@@ -30,3 +30,7 @@ To use Spyglass Astronomy Sync, the following are required:
 - [Spyglass Astronomy](https://modrinth.com/mod/spyglass-astronomy) on the client (server does not need it).
 
 Both the server and the client must have Spyglass Astronomy Sync installed for the synchronization to take effect.
+
+## Download
+- [Modrinth](https://modrinth.com/mod/spyglass-astronomy-sync)
+- [CurseForge](https://www.curseforge.com/minecraft/mc-mods/spyglass-astronomy-sync)

@@ -1,0 +1,18 @@
+mod.id = "spyglassastronomysync"
+mod.name = "Spyglass Astronomy Sync"
+mod.group = "dev.fliplus.spyglassastronomysync"
+mod.version = "1.1.0"
+mod.description = "Multiplayer support for Spyglass Astronomy"
+mod.authors = "fliplus"
+mod.sources = "https://github.com/fliplus/spyglass-astronomy-sync"
+mod.discord = "https://discord.fliplus.dev/"
+mod.license = "LGPL-3.0"
+
+deps.fabric_loader = "0.19.5"
+
+["26.3"]
+mod.version_range = "[26.1.2,)"
+
+deps.fabric_api = "0.161.0+26.3"
+deps.spyglass_astronomy = "1.0.27-mc26.3"
+deps.modmenu = "21.0.0"

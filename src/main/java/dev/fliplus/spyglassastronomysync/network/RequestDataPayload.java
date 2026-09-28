@@ -11,8 +11,9 @@ public class RequestDataPayload implements CustomPacketPayload {
 
     public static final CustomPacketPayload.Type<RequestDataPayload> TYPE = new CustomPacketPayload.Type<>(REQUEST_DATA_PAYLOAD_ID);
 
-    public static final StreamCodec<RegistryFriendlyByteBuf, RequestDataPayload> STREAM_CODEC = StreamCodec.unit(
-        new RequestDataPayload()
+    public static final StreamCodec<RegistryFriendlyByteBuf, RequestDataPayload> STREAM_CODEC = StreamCodec.of(
+        (_, _) -> {},
+        _ -> new RequestDataPayload()
     );
 
     @Override

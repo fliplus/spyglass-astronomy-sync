@@ -1,7 +1,7 @@
 mod.id = "spyglassastronomysync"
 mod.name = "Spyglass Astronomy Sync"
 mod.group = "dev.fliplus.spyglassastronomysync"
-mod.version = "1.1.0"
+mod.version = "1.1.1"
 mod.description = "Multiplayer support for Spyglass Astronomy"
 mod.authors = "fliplus"
 mod.sources = "https://github.com/fliplus/spyglass-astronomy-sync"
